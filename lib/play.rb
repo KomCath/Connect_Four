@@ -1,4 +1,4 @@
-# count the number of y and r in the game_state to define who's turn it is
+# count the number of y and r in the game_state to define whose turn it is
 def get_current_player(game_state)
     y = 0
     r = 0
@@ -39,11 +39,11 @@ def is_state_valid(game_state)
     if wrong_char != 0
         return false
     end
-    # since y always starts the game, r can't be greater    
+    ## since y always starts the game, r can't be greater    
     if r > y
         return false
     end
-    # can't be nil below a color
+    ## can't be nil below a color
     for col in 0..game_state[0].length - 1 do
         for row in 1..game_state.length - 1 do
             if game_state[row - 1][col] != nil && game_state[row][col] == nil
@@ -54,7 +54,7 @@ def is_state_valid(game_state)
     return true
 end
 
-# add the color to the column of choice
+# add the colored disk to the column of choice
 def play(game_state, column, color)
     row = game_state.length - 1
     if column <= game_state[0].length - 1 && column > 0
@@ -77,7 +77,7 @@ def winner(game_state)
     else
         color = "r"
     end
-    # cheking horizotal win
+    # check horizotal win
     while row >= 0 do
         if game_state[row].include?(color)
             game_state[row].each_with_index do |element, index|
@@ -93,7 +93,7 @@ def winner(game_state)
         row -= 1
     end
     row = game_state.length - 1
-    # checking vertical win
+    # check vertical win
     while row >= 3 do
         game_state[row].each_with_index do |element, index|
             if element == color
@@ -107,7 +107,7 @@ def winner(game_state)
         row -= 1
     end
     row = game_state.length - 1
-    # checking diagonal right win
+    # check diagonal right win
     while row >= 3 do
         if game_state[row].include?(color)
             game_state[row].each_with_index do |element, index|
@@ -123,7 +123,7 @@ def winner(game_state)
         row -= 1
     end
     row = game_state.length - 1
-    # checking diagonal left win
+    # check diagonal left win
     while row >= 3 do
         if game_state[row].include?(color)
             game_state[row].each_with_index do |element, index|

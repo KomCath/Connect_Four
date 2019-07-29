@@ -7,12 +7,12 @@ game_state = [
     [nil, nil, nil, nil, nil, nil, nil],
     [nil, nil, nil, nil, nil, nil, nil]
 ]
-# performs the game to happen
+## performs the game to happen
 def connect_four(game_state)
     col = 3
     color = get_current_player(game_state)
     game_state = play(game_state, col, color)
-    # check if the game_state is valid to be played 
+    ## check if the game_state is valid to be played 
     if is_state_valid(game_state) == true
         # until there is a winner/draw columns will be picked to be played
         while winner(game_state) == false do
