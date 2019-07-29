@@ -1,12 +1,4 @@
-game_state = [
-    [nil, nil, nil, nil, nil, nil, nil],
-    [nil, nil, nil, nil, nil, nil, nil],
-    [nil, nil, nil, nil, nil, nil, nil],
-    [nil, nil, nil, nil, nil, nil, nil],
-    [nil, nil, nil, nil, nil, nil, nil],
-    [nil, nil, nil, nil, nil, nil, nil]
-]
-
+# count the number of y and r in the game_state to define who's turn it is
 def get_current_player(game_state)
     y = 0
     r = 0
@@ -26,10 +18,12 @@ def get_current_player(game_state)
     end
 end
 
+# check if the game_state is valid to be played
 def is_state_valid(game_state)
     y = 0
     r = 0
     wrong_char = 0
+    # can't have elements different then nil, y or r
     game_state.each do |row|
         row.each do |element|
             if element == "y"
@@ -41,17 +35,14 @@ def is_state_valid(game_state)
             end
         end
     end
-
     # elements in the game_state can't be different then nil, r or y
     if wrong_char != 0
         return false
     end
-
     # since y always starts the game, r can't be greater    
     if r > y
         return false
     end
-
     # can't be nil below a color
     for col in 0..game_state[0].length - 1 do
         for row in 1..game_state.length - 1 do
@@ -60,10 +51,10 @@ def is_state_valid(game_state)
             end
         end
     end 
-    
     return true
 end
 
+# add the color to the column of choice
 def play(game_state, column, color)
     row = game_state.length - 1
     if column <= game_state[0].length - 1 && column > 0
@@ -78,6 +69,7 @@ def play(game_state, column, color)
     return game_state
 end
 
+# check if there is a winner
 def winner(game_state)
     row = game_state.length - 1
     if get_current_player(game_state) == "r"
@@ -85,7 +77,6 @@ def winner(game_state)
     else
         color = "r"
     end
-
     # cheking horizotal win
     while row >= 0 do
         if game_state[row].include?(color)
@@ -102,7 +93,6 @@ def winner(game_state)
         row -= 1
     end
     row = game_state.length - 1
-
     # checking vertical win
     while row >= 3 do
         game_state[row].each_with_index do |element, index|
@@ -117,7 +107,6 @@ def winner(game_state)
         row -= 1
     end
     row = game_state.length - 1
-
     # checking diagonal right win
     while row >= 3 do
         if game_state[row].include?(color)
@@ -134,7 +123,6 @@ def winner(game_state)
         row -= 1
     end
     row = game_state.length - 1
-    
     # checking diagonal left win
     while row >= 3 do
         if game_state[row].include?(color)
@@ -150,36 +138,5 @@ def winner(game_state)
         end
         row -= 1
     end
-
     return false
 end
-
-def connect_four(game_state)
-    col = 3
-    color = get_current_player(game_state)
-    game_state = play(game_state, col, color)
-
-    if is_state_valid(game_state) == true
-        while winner(game_state) == false do
-            col = rand(7)
-            if game_state[0][col] != nil
-                col = rand(7)
-            elsif game_state[0][col] == nil
-                color = get_current_player(game_state)
-                game_state = play(game_state, col, color)
-            else
-                puts "It's a draw!"
-            end
-        end
-        if color == "r"
-            color = "red"
-        else
-            color = "yellow"
-        end
-        puts "The ultimate winner is : #{color}!"
-    else
-        puts "Uh oh, there is something wrong! Start the game over."
-    end
-end
-
-connect_four(game_state)
