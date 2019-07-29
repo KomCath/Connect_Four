@@ -18,7 +18,7 @@ def get_current_player(game_state)
     end
 end
 
-# check if the game_state is valid to be played
+# check if the game is valid to be played
 def is_state_valid(game_state)
     y = 0
     r = 0
@@ -35,15 +35,14 @@ def is_state_valid(game_state)
             end
         end
     end
-    # elements in the game_state can't be different then nil, r or y
     if wrong_char != 0
         return false
     end
-    ## since y always starts the game, r can't be greater    
+    # r can't be greater, since y always starts the game
     if r > y
         return false
     end
-    ## can't be nil below a color
+    # column can't have nil below a disk played
     for col in 0..game_state[0].length - 1 do
         for row in 1..game_state.length - 1 do
             if game_state[row - 1][col] != nil && game_state[row][col] == nil
@@ -54,7 +53,7 @@ def is_state_valid(game_state)
     return true
 end
 
-# add the colored disk to the column of choice
+# add the colored disk to the column of choice always from the bottom
 def play(game_state, column, color)
     row = game_state.length - 1
     if column <= game_state[0].length - 1 && column > 0
